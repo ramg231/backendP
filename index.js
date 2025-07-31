@@ -13,7 +13,8 @@ import productRoutes from "./src/routes/productos.routes.js";
 import imgRoutes from "./src/routes/imagenProducto.routes.js";
 import catRoutes from "./src/routes/categoria.routes.js";
 import pubRoutes from "./src/routes/public.routes.js";
-
+import opcRoutes from "./src/routes/opciones.routes.js"
+import pedRoutes from "./src/routes/pedido.routes.js"
 dotenv.config();
 
 const app = express(); // Crear instancia de express
@@ -21,7 +22,16 @@ const app = express(); // Crear instancia de express
 // Middleware de CORS
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "https://pasteleriajazmin.net.pe",
+      "https://www.pasteleriajazmin.net.pe",
+      "https://pasteleriajazmin.net.pe/",
+      "https://www.pasteleriajazmin.net.pe/",
+      "http://localhost:3000/",
+      "http://localhost:3000",
+      "http://localhost:5173"
+      
+    ],
     methods: ["POST", "GET", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "x-token", "Authorization"],
   })
@@ -42,6 +52,8 @@ app.use("/public", express.static(publicPath));
 dbConnection().then(syncModels);
 
 // Rutas de la API (puedes completar después)
+console.log("Cargando rutas de categoría");
+app.use("/api/cat", catRoutes);
 app.use("/api/user",usuarioRoutes );
 app.use("/api/permisos", permisoRoutes);
 app.use("/api/rolPerm", rolPermisoRoutes);
@@ -50,6 +62,8 @@ app.use("/api/cat", catRoutes);
 app.use("/api/products",  productRoutes);
 app.use("/api/img",   imgRoutes);
 app.use("/api/publica",   pubRoutes);
+app.use("/api/opc",   opcRoutes);
+app.use("/api/ped",   pedRoutes);
 // app.use("/api/categorias", categoriaRoutes);
 
 // Ruta 404
@@ -63,8 +77,9 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: "Error interno del servidor" });
 });
 
-// Iniciar servidor
-const PORT = process.env.PORT || 4001;
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
+ 
+// ...existing code...
+app.listen(process.env.PORT || 4001, '0.0.0.0', () => {
+  console.log('Servidor corriendo en el puerto', process.env.PORT || 4001);
 });
+// ...existing code...

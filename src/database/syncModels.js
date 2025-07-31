@@ -16,7 +16,8 @@ import SaborModel from "../models/sabor.js";
 import TamanoModel from "../models/tamano.js";
 import ProductoSaborModel from "../models/productoSabor.js";
 import ProductoTamanoModel from "../models/productoTamano.js";
-
+import PedidoProductoModel from "../models/pedido_producto.js";
+import PedidoModel from "../models/pedido.js"; 
 
 // Inicializar modelos
 export const Usuario = UsuarioModel(sequelize, DataTypes);
@@ -33,6 +34,8 @@ export const Sabor = SaborModel(sequelize, DataTypes);
 export const Tamano = TamanoModel(sequelize, DataTypes); 
 export const ProductoSabor = ProductoSaborModel(sequelize, DataTypes);
 export const ProductoTamano = ProductoTamanoModel(sequelize, DataTypes);
+export const PedidoProducto = PedidoProductoModel(sequelize, DataTypes);
+export const Pedido = PedidoModel(sequelize, DataTypes);
 
 
 // RELACIONES
@@ -90,6 +93,8 @@ Tamano.belongsToMany(Producto, {
 ProductoTamano.belongsTo(Tamano, { foreignKey: "tamano_id" });
 ProductoSabor.belongsTo(Sabor, { foreignKey: "sabor_id" });
 
+Pedido.hasMany(PedidoProducto, { foreignKey: "pedido_id" });
+PedidoProducto.belongsTo(Pedido, { foreignKey: "pedido_id" });
 
 export const db = {
   sequelize,
